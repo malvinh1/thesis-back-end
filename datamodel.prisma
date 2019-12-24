@@ -1,0 +1,16 @@
+type User {
+  id: ID! @id
+  fullName: String!
+  email: String! @unique
+  avatar: String!
+  level: LevelEnum!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+enum LevelEnum {
+  Beginner
+  Novice
+  Expert
+  Master
+}
