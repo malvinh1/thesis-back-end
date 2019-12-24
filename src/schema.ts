@@ -6,14 +6,14 @@ import { prismaObjectType, makePrismaSchema } from 'nexus-prisma';
 let Query = prismaObjectType({
   name: 'Query',
   definition(t) {
-    t.prismaFields(['*']);
+    t.prismaFields(['']);
   },
 });
 
 let Mutation = prismaObjectType({
   name: 'Mutation',
   definition(t) {
-    t.prismaFields(['*']);
+    t.prismaFields(['']);
   },
 });
 
