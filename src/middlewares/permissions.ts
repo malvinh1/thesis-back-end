@@ -4,6 +4,10 @@ let isAuthenticated = rule()(async (_, __, ctx) => {
   return ctx.userId != '';
 });
 
-let permissions = shield({});
+let permissions = shield({
+  Mutation: {
+    updateUser: isAuthenticated,
+  },
+});
 
 export { permissions };
