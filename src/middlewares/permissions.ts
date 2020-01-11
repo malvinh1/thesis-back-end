@@ -5,8 +5,8 @@ let isAuthenticated = rule()(async (_, __, ctx) => {
 });
 
 let permissions = shield({
-  Mutation: {
-    updateUser: isAuthenticated,
+  Query: {
+    myProfile: isAuthenticated,
   },
 });
 

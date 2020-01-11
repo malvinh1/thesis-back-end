@@ -1,16 +1,24 @@
 type User {
   id: ID! @id
-  fullName: String!
+  username: String! @unique
   email: String! @unique
-  avatar: String!
-  level: LevelEnum!
+  password: String!
+  fullName: String!
+  avatar: String
+  badge: [Badge]
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
 
-enum LevelEnum {
-  Beginner
-  Novice
-  Expert
-  Master
+type Badge {
+  id: ID! @id
+  name: String!
+  description: String!
+  image: String!
+}
+
+type Avatar {
+  id: ID! @id
+  image: String!
+  price: Int!
 }
