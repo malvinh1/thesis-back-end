@@ -7,6 +7,7 @@
     "test": "yarn generate && yarn lint && yarn typecheck && yarn format:check && yarn jest",
     "local-jest": "yarn prisma-delete && yarn prisma-deploy && jest --coverage --passWithNoTests --verbose",
     "generate": "prisma generate && nexus-prisma-generate --client ./generated/prisma-client --output ./generated/nexus-prisma",
+    "heroku": "yarn generate && yarn start",
     "lint": "eslint --max-warnings 0 \"src/**/*.ts\"",
     "typecheck": "tsc --noEmit -p .",
     "format:check": "prettier --check \"src/**/*.ts\"",
