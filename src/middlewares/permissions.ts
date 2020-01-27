@@ -9,9 +9,11 @@ let permissions = shield({
     avatars: isAuthenticated,
     leaderboard: isAuthenticated,
     myProfile: isAuthenticated,
+    questions: isAuthenticated,
   },
   Mutation: {
     addToAvatarCollection: isAuthenticated,
+    createQuestion: isAuthenticated,
     updateProfile: isAuthenticated,
   },
 });

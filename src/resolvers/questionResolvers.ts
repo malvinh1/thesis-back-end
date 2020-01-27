@@ -1,5 +1,5 @@
 import { Context } from '../main';
-import { queryField, arg, stringArg } from 'nexus/dist';
+import { queryField, arg, stringArg, mutationField } from 'nexus/dist';
 
 export let questions = queryField('questions', {
   type: 'Question',
@@ -16,7 +16,7 @@ export let questions = queryField('questions', {
   },
 });
 
-export let createQuestion = queryField('createQuestion', {
+export let createQuestion = mutationField('createQuestion', {
   type: 'Question',
   args: {
     category: arg({ type: 'Category', required: true }),
@@ -28,15 +28,18 @@ export let createQuestion = queryField('createQuestion', {
     { category, description, questionChoices },
     ctx: Context,
   ) => {
-    return await ctx.prisma.createQuestion({
-      category,
-      description,
-      choices: {
-        create: {
-          answer: questionChoices.answer[0],
-          correct: questionChoices.correct[0],
+    if (questionChoices.choices.length !== 4) {
+      throw new Error(
+        `Expected 4 choices but got ${questionChoices.choices.length}`,
+      );
+    } else {
+      return await ctx.prisma.createQuestion({
+        category,
+        description,
+        choices: {
+          create: questionChoices.choices,
         },
-      },
-    });
+      });
+    }
   },
 });

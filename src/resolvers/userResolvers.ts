@@ -2,6 +2,37 @@ import { queryField, mutationField, arg, stringArg, intArg } from 'nexus';
 
 import { Context } from '../main';
 
+export let addToAvatarCollection = mutationField('addToAvatarCollection', {
+  type: 'User',
+  args: {
+    avatarId: arg({ type: 'ID' }),
+  },
+  resolve: async (_, { avatarId }, ctx: Context) => {
+    return await ctx.prisma.updateUser({
+      data: {
+        avatarCollection: {
+          connect: {
+            id: avatarId,
+          },
+        },
+      },
+      where: {
+        id: ctx.userId,
+      },
+    });
+  },
+});
+
+export let leaderboard = queryField('leaderboard', {
+  type: 'User',
+  list: true,
+  resolve: async (_, __, ctx: Context) => {
+    return (await ctx.prisma.users()).sort(
+      (a, b) => b.highestScore - a.highestScore,
+    );
+  },
+});
+
 export let myProfile = queryField('myProfile', {
   type: 'User',
   resolve: async (_, __, ctx: Context) => {
@@ -57,17 +88,22 @@ export let updateProfile = mutationField('updateProfile', {
   },
 });
 
-export let addToAvatarCollection = mutationField('addToAvatarCollection', {
+export let updateUserProgress = mutationField('updateUserProgress', {
   type: 'User',
   args: {
-    avatarId: arg({ type: 'ID' }),
+    CPR: intArg(),
+    Burns: intArg(),
+    Bruised: intArg(),
+    Impaled: intArg(),
+    OpenWound: intArg(),
+    NoseBleed: intArg(),
   },
-  resolve: async (_, { avatarId }, ctx: Context) => {
+  resolve: async (_, { ...updateUserProgress }, ctx: Context) => {
     return await ctx.prisma.updateUser({
       data: {
-        avatarCollection: {
-          connect: {
-            id: avatarId,
+        progress: {
+          update: {
+            ...updateUserProgress,
           },
         },
       },
@@ -75,15 +111,5 @@ export let addToAvatarCollection = mutationField('addToAvatarCollection', {
         id: ctx.userId,
       },
     });
-  },
-});
-
-export let leaderboard = queryField('leaderboard', {
-  type: 'User',
-  list: true,
-  resolve: async (_, __, ctx: Context) => {
-    return (await ctx.prisma.users()).sort(
-      (a, b) => b.highestScore - a.highestScore,
-    );
   },
 });
