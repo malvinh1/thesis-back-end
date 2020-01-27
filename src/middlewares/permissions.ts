@@ -7,6 +7,7 @@ let isAuthenticated = rule()(async (_, __, ctx) => {
 let permissions = shield({
   Query: {
     avatars: isAuthenticated,
+    leaderboard: isAuthenticated,
     myProfile: isAuthenticated,
   },
   Mutation: {

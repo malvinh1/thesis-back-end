@@ -30,6 +30,17 @@ export let register = mutationField('register', {
       email: normalizedEmail,
       name,
       password: hash,
+      progress: {
+        create: {
+          CPR: 0,
+          Burns: 0,
+          Bruised: 0,
+          Impaled: 0,
+          OpenWound: 0,
+          NoseBleed: 0,
+          Cramps: 0,
+        },
+      },
     });
 
     if (avatarId) {

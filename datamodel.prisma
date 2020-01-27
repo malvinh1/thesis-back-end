@@ -8,8 +8,16 @@ type User {
   badge: [Badge]
   highestScore: Int! @default(value: 0)
   point: Int! @default(value: 0)
+  progress: Progress!
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
+}
+
+type Question {
+  id: ID! @id
+  description: String!
+  choices: [Choice!]!
+  category: QuestionEnum!
 }
 
 type Avatar {
@@ -23,17 +31,15 @@ type Badge {
   name: String!
 }
 
-type CategoryConditionEnum {
+type Progress {
   id: ID! @id
-  Category: QuestionEnum
-  score: Int!
-}
-
-type Question {
-  id: ID! @id
-  description: String!
-  choices: [Choice!]!
-  category: QuestionEnum!
+  CPR: Int! @default(value: 0)
+  Burns: Int! @default(value: 0)
+  Bruised: Int! @default(value: 0)
+  Impaled: Int! @default(value: 0)
+  OpenWound: Int! @default(value: 0)
+  NoseBleed: Int! @default(value: 0)
+  Cramps: Int! @default(value: 0)
 }
 
 type Choice {
