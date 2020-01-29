@@ -94,9 +94,9 @@ export let updateUserProgress = mutationField('updateUserProgress', {
     CPR: intArg(),
     Burns: intArg(),
     Bruised: intArg(),
-    Impaled: intArg(),
     OpenWound: intArg(),
     NoseBleed: intArg(),
+    Cramps: intArg(),
   },
   resolve: async (_, { ...updateUserProgress }, ctx: Context) => {
     return await ctx.prisma.updateUser({

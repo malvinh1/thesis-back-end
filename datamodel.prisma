@@ -37,7 +37,6 @@ type Progress {
   CPR: Int! @default(value: 0)
   Burns: Int! @default(value: 0)
   Bruised: Int! @default(value: 0)
-  Impaled: Int! @default(value: 0)
   OpenWound: Int! @default(value: 0)
   NoseBleed: Int! @default(value: 0)
   Cramps: Int! @default(value: 0)
@@ -54,7 +53,6 @@ enum QuestionEnum {
   CPR
   Burns
   Bruised
-  Impaled
   OpenWound
   NoseBleed
   Cramps
