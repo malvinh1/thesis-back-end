@@ -5,7 +5,6 @@ type User {
   name: String!
   avatar: Avatar @relation(name: "UserAvatar")
   avatarCollection: [Avatar] @relation(name: "AvatarCollection")
-  badge: [Badge]
   highestScore: Int! @default(value: 0)
   point: Int! @default(value: 0)
   progress: Progress!
@@ -24,11 +23,6 @@ type Avatar {
   id: ID! @id
   image: String!
   price: Int!
-}
-
-type Badge {
-  id: ID! @id
-  name: String!
 }
 
 type Progress {
