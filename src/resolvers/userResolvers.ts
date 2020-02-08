@@ -76,7 +76,11 @@ export let updateProfile = mutationField('updateProfile', {
     highestScore: intArg(),
     point: intArg(),
   },
-  resolve: async (_, { avatarId, ...updateProfileData }, ctx: Context) => {
+  resolve: async (
+    _,
+    { avatarId, password, ...updateProfileData },
+    ctx: Context,
+  ) => {
     if (avatarId) {
       let avatarCollection = await ctx.prisma
         .user({ id: ctx.userId })
@@ -98,6 +102,12 @@ export let updateProfile = mutationField('updateProfile', {
         });
       }
       throw new Error('Cannot change avatar which is not in avatar collection');
+    }
+
+    if (password) {
+      password = sjcl.codec.hex.fromBits(
+        sjcl.hash.sha256.hash(password + process.env.SALT || ''),
+      );
     }
     return await ctx.prisma.updateUser({
       data: {
