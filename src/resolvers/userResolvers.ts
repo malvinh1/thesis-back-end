@@ -1,4 +1,5 @@
 import { queryField, mutationField, arg, stringArg, intArg } from 'nexus';
+import sjcl from 'sjcl';
 
 import { Context } from '../main';
 
@@ -20,6 +21,27 @@ export let addToAvatarCollection = mutationField('addToAvatarCollection', {
         id: ctx.userId,
       },
     });
+  },
+});
+
+export let checkPassword = queryField('checkPassword', {
+  type: 'Boolean',
+  args: {
+    password: stringArg({ required: true }),
+  },
+  resolve: async (_, { password }, ctx: Context) => {
+    let user = await ctx.prisma.user({
+      id: ctx.userId,
+    });
+    let hashedPassword = sjcl.codec.hex.fromBits(
+      sjcl.hash.sha256.hash(password + process.env.SALT || ''),
+    );
+
+    if (user?.password === hashedPassword) {
+      return true;
+    } else {
+      return false;
+    }
   },
 });
 
