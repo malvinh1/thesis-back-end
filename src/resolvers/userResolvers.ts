@@ -1,5 +1,5 @@
 import { queryField, mutationField, arg, stringArg, intArg } from 'nexus';
-import sjcl from 'sjcl';
+import { sha256 } from 'js-sha256';
 
 import { Context } from '../main';
 
@@ -33,9 +33,7 @@ export let checkPassword = queryField('checkPassword', {
     let user = await ctx.prisma.user({
       id: ctx.userId,
     });
-    let hashedPassword = sjcl.codec.hex.fromBits(
-      sjcl.hash.sha256.hash(password + process.env.SALT || ''),
-    );
+    let hashedPassword = sha256(password + process.env.SALT || '');
 
     if (user?.password === hashedPassword) {
       return true;
@@ -105,9 +103,7 @@ export let updateProfile = mutationField('updateProfile', {
     }
 
     if (password) {
-      password = sjcl.codec.hex.fromBits(
-        sjcl.hash.sha256.hash(password + process.env.SALT || ''),
-      );
+      password = sha256(password + process.env.SALT || '');
     }
     return await ctx.prisma.updateUser({
       data: {
